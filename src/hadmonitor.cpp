@@ -1,4 +1,26 @@
-
+/*
+ * The MIT License (MIT)
+ * 
+ * Copyright (c) 2014 Przemysław Grzywacz
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 // This #include statement was automatically added by the Spark IDE.
 #include "Adafruit_SSD1306/Adafruit_SSD1306.h"
 
@@ -190,6 +212,7 @@ static const uint8_t hackaday_logo[] = {
 
 
 void setup()   {
+	// set timezone GMT+2
     Time.zone(2);
     
     Serial.begin(9600);
@@ -202,6 +225,7 @@ void setup()   {
     display.begin(SSD1306_SWITCHCAPVCC);
     display.clearDisplay();
     
+    // display we are printing a weather forecast
     display.setTextSize(1);
     display.setTextColor(WHITE);
     display.setCursor(0,0);
@@ -212,10 +236,11 @@ void setup()   {
     display.println("WARSAW");
     display.display();
 
-    
+    // wake the printer
     printer.wake();
     printer.setDefault();
     
+    // print the forecast
     printer.setSize('S');     // Set type size, accepts 'S', 'M', 'L'
     printer.println("20 August 2014");
     
@@ -233,7 +258,7 @@ void setup()   {
     printer.feedRows(1);
     
     
-    
+    // display information there is a new HACK!
     display.clearDisplay();
     display.setTextSize(2);
     display.setTextColor(WHITE);
@@ -241,7 +266,7 @@ void setup()   {
     display.println("NEW HACK!");
     display.display();
     
-    
+    // print info about new hack
     printer.setSize('S');
     printer.println("New Hackaday.com article!");
 
@@ -250,6 +275,7 @@ void setup()   {
     printer.feed(2);
     printer.sleep();
     
+    // animate the information
     display.invertDisplay(true);
     delay(1000); 
     display.invertDisplay(false);
@@ -259,13 +285,6 @@ void setup()   {
     display.invertDisplay(false);
     delay(1000); 
     
-    // printer.wake();
-    // printer.setDefault();
-    
-    // printer.setSize('S');     // Set type size, accepts 'S', 'M', 'L'
-    // printer.println("20 August 2014");
-
-    // printer.sleep();
 }
 
 
@@ -273,6 +292,7 @@ char time_buf[6];
 char date_buf[11];
 void loop() {
     
+    // animate the : between hour and minute every second
     if (Time.second() % 2 == 0) {
         sprintf(time_buf, "%02i:%02i", Time.hour(), Time.minute());
     } else {
@@ -280,12 +300,14 @@ void loop() {
     }
     sprintf(date_buf, "%04i-%02i-%02i", Time.year(), Time.month(), Time.day());
     
+    // display time
     display.clearDisplay();
     display.setTextColor(WHITE);
     display.setTextSize(4);
     display.setCursor(128 / 2 - (23 * 5) / 2, 8);
     display.print(time_buf);
     
+    // display date
     display.setTextSize(2);
     display.setCursor(128 / 2 - (12 * 10) / 2, 64 - 16);
     display.print(date_buf);
