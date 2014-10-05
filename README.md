@@ -44,7 +44,7 @@ Bellow is a list of additional external software used:
 - Adafruit_SSD1306 (Spark Core port)
 - Adafruit_GFX (Spark Core port)
 - Adafruit_Thermal (Spark Core port)
-
+- GFX1BIT (Adafruit_GFX 1bit port to Linux)
 
 
 Branches
